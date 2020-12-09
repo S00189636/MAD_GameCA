@@ -2,6 +2,7 @@ package edu.mohamedshiha.gameca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,19 +15,19 @@ import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnMonkey,btnMouse,btnCat,btnDog;
+    Button btnMonkey,btnMouse,btnCat,btnDog,btn_play;
     TextView tv_UserDisplay, tv_score, tv_level;
     int[] currentGuess;
     CountUpTimer highlightTimer;
     CountUpTimer GameLoop;
-    int LevelDifficulty = 4;
+    int LevelDifficulty = 1;
     boolean timeUp = false;
     boolean highlightStarted = false;
+    boolean DataLoaded = false;
 
-    int CurrentLevel ,CurrentScore ;
+    int CurrentLevel;
     Random rand = new Random();
-
-
+    public static  int CurrentScore;
 
     enum GameState{
         Setup,
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         btnDog = findViewById(R.id.btn_dog);
         btnMonkey = findViewById(R.id.btn_monkey);
         btnMouse = findViewById(R.id.btn_mouse);
+        btn_play = findViewById(R.id.Btn_Play);
 
         tv_UserDisplay = findViewById(R.id.TV_UserDisplay);
         tv_score = findViewById(R.id.TV_Score);
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         // using the counter to animate the buttons
         highlightTimer = new CountUpTimer(10000000) {
             public void onTick(float second) {
-                timeUp = this.CurrentSeconds >1.9;
+                timeUp = this.CurrentSeconds >1.5;
             }
         };
 
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // this will hold all game logic
         GameLoop = new CountUpTimer(10000000) {
             public void onTick(float second) {
+                tv_score.setText("Score: "+(CurrentScore));
                 switch (gameState){
                     case Setup:
                         Setup();
@@ -85,8 +88,13 @@ public class MainActivity extends AppCompatActivity {
                     case NextActivity:
                         //start activity here for now just stop game loop;
                         tv_UserDisplay.setText("");
-                        gameState = GameState.Setup;
+                        LevelDifficulty +=2;
+                        CurrentLevel++;
+                        DataLoaded = false;
                         //recreate();
+                        btn_play.setEnabled(true);
+                        StartPlayScreen();
+                        gameState = GameState.Setup;
                         break;
                 }
             }
@@ -94,23 +102,41 @@ public class MainActivity extends AppCompatActivity {
         // start the game
         GameLoop.start();
     }
+
+    private void StartPlayScreen(){
+        Intent playScreenIntent = new Intent(this,PlayScreen.class);
+        //playScreenIntent.getIntExtra("Size",LevelDifficulty-2);
+        playScreenIntent.putExtra("Guess",currentGuess);
+        startActivity(playScreenIntent);
+        DataLoaded = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     public void StartLevel(View view) {
+        gameState = GameState.Start;
+        highlightTimer.start();
+        btn_play.setEnabled(false);
     }
 
     private void Setup() {
+        if(DataLoaded) return;
+        tv_score.setText("Score: "+(CurrentScore));
+        tv_level.setText("Level: "+(CurrentLevel+1));
+        tv_UserDisplay.setText( ("Get Ready!! Press Play") );
+        timeUp = false;
+        currentButtonToLightIndex = 0;
         // reset guess array to get a new one
         currentGuess = null;
         FillGuessArray();
-        gameState = GameState.Start;
-        highlightTimer.start();
+        DataLoaded = true;
     }
 
     private void SetupGameToStart() {
-        tv_score.setText("Score: "+(CurrentScore));
-        tv_level.setText("Level: "+(CurrentLevel+1));
-        tv_UserDisplay.setText( ("Get Ready!!") );
-        timeUp = false;
-        currentButtonToLightIndex = 0;
+
         //if(highlightTimer == null) return;
         if(highlightTimer.CurrentSeconds > 0.5) {
             tv_UserDisplay.setText("");
