@@ -2,6 +2,7 @@ package edu.mohamedshiha.gameca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -86,11 +87,12 @@ public class PlayScreen extends AppCompatActivity implements SensorEventListener
                 if(gameOver){
                     // show game over screen
                     tv_UserDisplay.setText("Game Over");
+                    StartGameOverScreen();
                 }
                 if(checkIndex >= correctAnswer.length){
                     MainActivity.CurrentScore +=4;
                     tv_UserDisplay.setText("You win");
-                    GoBack();
+                    CleanActivity();
                 }
             }
         };
@@ -98,9 +100,12 @@ public class PlayScreen extends AppCompatActivity implements SensorEventListener
 
     }
 
-    void GoBack(){
+    void StartGameOverScreen(){
+        CleanActivity();
+        startActivity(new Intent(this,GameOverScreen.class));
+    }
+    void CleanActivity(){
         sensorManager.unregisterListener(this,Accelerometer);
-        MainActivity.CurrentScore +=4;
         GameLoop.cancel();
         finish();
     }
@@ -126,9 +131,8 @@ public class PlayScreen extends AppCompatActivity implements SensorEventListener
         }else if( (x > -2 && x < 2) && (y > -2 && y < 2) )
         {
             // check if the Input is correct
-            if(userInput.getValue() != correctAnswer[checkIndex]) {
-                readUserInput = true;
-                Toast.makeText(this,"Too bad you lost",Toast.LENGTH_SHORT).show();
+            if(userInput.getValue() != correctAnswer[checkIndex] && !gameOver) {
+                gameOver = true;
             }else if(userInput.getValue() == correctAnswer[checkIndex]){
                 checkIndex++;
                 userInput = UserInput.Nothing;

@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     boolean highlightStarted = false;
     boolean DataLoaded = false;
 
-    int CurrentLevel;
-    Random rand = new Random();
+    public static int CurrentLevel;
     public static  int CurrentScore;
+    Random rand = new Random();
 
     enum GameState{
         Setup,
