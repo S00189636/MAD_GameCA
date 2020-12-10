@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.List;
 import java.util.Random;
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     GameState gameState = GameState.Start;
 
+    float animationTime = 11f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +51,15 @@ public class MainActivity extends AppCompatActivity {
         btn_play = findViewById(R.id.Btn_Play);
 
         tv_UserDisplay = findViewById(R.id.TV_UserDisplay);
-        tv_score = findViewById(R.id.TV_Score);
+        tv_score = findViewById(R.id.TV_ScoreItem);
         tv_level = findViewById(R.id.TV_CurrentLevel);
 
         // setup game variables
         // using the counter to animate the buttons
-        highlightTimer = new CountUpTimer(10000000) {
-            public void onTick(float second) {
-                timeUp = this.CurrentSeconds >1.5;
+        highlightTimer = new CountUpTimer(1000000000) {
+            public void onTick(double second) {
+                //Log.i("Timer",String.valueOf(this.CurrentSeconds));
+                timeUp = this.CurrentSeconds >=animationTime;
             }
         };
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         // using the counter as a game loop
         // this will hold all game logic
         GameLoop = new CountUpTimer(10000000) {
-            public void onTick(float second) {
+            public void onTick(double second) {
                 tv_score.setText("Score: "+(CurrentScore));
                 switch (gameState){
                     case Setup:
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         LightButtons();
                         break;
                     case ShowingMessage:
-                        if (highlightTimer.CurrentSeconds >=0.8)
+                        if (highlightTimer.CurrentSeconds >=10)
                             gameState = GameState.NextActivity;
                         break;
                     case NextActivity:
@@ -103,20 +103,18 @@ public class MainActivity extends AppCompatActivity {
         GameLoop.start();
     }
 
-    private void StartPlayScreen(){
+        private void StartPlayScreen(){
         Intent playScreenIntent = new Intent(this,PlayScreen.class);
         //playScreenIntent.getIntExtra("Size",LevelDifficulty-2);
         playScreenIntent.putExtra("Guess",currentGuess);
         startActivity(playScreenIntent);
+        highlightTimer.cancel();
         DataLoaded = false;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     public void StartLevel(View view) {
+        tv_UserDisplay.setText("");
         gameState = GameState.Start;
         highlightTimer.start();
         btn_play.setEnabled(false);
@@ -138,11 +136,12 @@ public class MainActivity extends AppCompatActivity {
     private void SetupGameToStart() {
 
         //if(highlightTimer == null) return;
-        if(highlightTimer.CurrentSeconds > 0.5) {
+        if(highlightTimer.CurrentSeconds > 0) {
             tv_UserDisplay.setText("");
             highlightTimer.cancel();
             highlightTimer.CurrentSeconds =0;
             gameState = GameState.ShowingGuess;
+            highlightStarted = false;
             //LightButtons();
         }
     }
@@ -195,10 +194,9 @@ public class MainActivity extends AppCompatActivity {
             // when every guess has been shown, this will change the game state to the next state
             if(currentButtonToLightIndex >= currentGuess.length){
                 //tv_level.setText("Index: "+(currentButtonToLightIndex));
-                String Text = rand.nextBoolean() ? "Match The Pattern" : "Did You Get That";
+                String Text = rand.nextBoolean() ? "Match The Pattern" : "Did You Get That ";
                 tv_UserDisplay.setText(Text);
                 highlightTimer.start();
-                highlightTimer.CurrentSeconds = 0;
                 gameState = GameState.ShowingMessage;
             }
         }
@@ -206,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void StartHighlight(Button btn) {
-        if(timeUp)
+        if(timeUp )
         {
             //Toast.makeText(this,"Time is up: "+currentButtonToLightIndex,Toast.LENGTH_SHORT).show();
             highlightTimer.cancel();
@@ -217,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
         }else if(!highlightStarted) {
             highlightTimer.start();
             highlightTimer.CurrentSeconds = 0;
+            animationTime =11f;
             highlightStarted = true;
             btn.setEnabled(true);
         }

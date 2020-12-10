@@ -8,7 +8,7 @@
     tools:context=".GameOverScreen">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/TV_GameOver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Game Over"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.702" />
 
     <TextView
-        android:id="@+id/TV_Score"
+        android:id="@+id/TV_ScoreItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your Score: 999"
@@ -69,6 +69,7 @@
         android:layout_width="129dp"
         android:layout_height="75dp"
         android:backgroundTint="#95E5EF"
+        android:onClick="ShowScoreBoard"
         android:text="Score board"
         android:textColor="#453939"
         app:layout_constraintBottom_toBottomOf="parent"

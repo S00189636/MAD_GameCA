@@ -4,9 +4,9 @@ package edu.mohamedshiha.gameca;
 import android.os.CountDownTimer;
 
 public abstract class CountUpTimer extends CountDownTimer {
-    private static final long INTERVAL_MS = 1000;
+    private static final long INTERVAL_MS = 100;
     private final long duration;
-    public float CurrentSeconds;
+    public double CurrentSeconds;
 
     protected CountUpTimer(long durationMs) {
         super(durationMs, INTERVAL_MS);
@@ -14,18 +14,18 @@ public abstract class CountUpTimer extends CountDownTimer {
         CurrentSeconds =0;
     }
 
-    public abstract void onTick(float second);
+    public abstract void onTick(double second);
 
     @Override
     public void onTick(long msUntilFinished) {
-        float second = ((duration - msUntilFinished) / 1000);
+        double second = ((duration - msUntilFinished )/ 100 );
         CurrentSeconds += (second - CurrentSeconds);
         this.onTick(CurrentSeconds);
     }
 
     @Override
     public void onFinish() {
-        onTick(duration / 1000);
+        onTick(duration/100);
     }
 
 }
