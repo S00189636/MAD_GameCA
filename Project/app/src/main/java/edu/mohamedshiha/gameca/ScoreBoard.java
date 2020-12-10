@@ -3,23 +3,16 @@ package edu.mohamedshiha.gameca;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class ScoreBoard extends AppCompatActivity {
 
     ListView lv_scores;
+    // using the database to get all the stored scores
     DatabaseHandler db = new DatabaseHandler(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +20,11 @@ public class ScoreBoard extends AppCompatActivity {
         setContentView(R.layout.activity_score_board);
 
         lv_scores = findViewById(R.id.LV_TopScores);
+        // will fill the list view with top 5 distinct scores
         FillTopFiveScores();
     }
 
+    // will reset the game and bring the player back to the sequence screen
     public void StartNewGame(View view){
         MainActivity.CurrentScore = 0;
         MainActivity.CurrentLevel = 0;
@@ -73,6 +68,7 @@ public class ScoreBoard extends AppCompatActivity {
         lv_scores.setAdapter(new ScoreListViewAdapter(this,scoreListSorted));
     }
 
+    // will delete all scores from the database and update the list view
     public void ClearScores(View view) {
         db.emptyScores();
         lv_scores.setAdapter(new ScoreListViewAdapter(this,db.getAllScores()));

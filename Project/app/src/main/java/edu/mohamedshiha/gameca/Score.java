@@ -10,18 +10,6 @@ public class Score implements Comparable  {
         return Name;
     }
 
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void setScore(String score) {
-        Score = score;
-    }
-
-    public void setLevel(String level) {
-        Level = level;
-    }
-
     public String getScore() {
         return Score;
     }
@@ -44,14 +32,8 @@ public class Score implements Comparable  {
         this("","PlayerName",level,score);
     }
 
-    public Score(String score)
-    {
-        this(score,"0");
-    }
-
     @Override
     public int compareTo(Object o) {
-        //if(o == null) return 0;
         int score =Integer.parseInt(getScore());
         int otherScore = Integer.parseInt(((Score)o).getScore());
         return otherScore -score;

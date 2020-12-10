@@ -6,15 +6,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import androidx.annotation.Nullable;
-
-import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
+
 
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -31,7 +26,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //3rd argument to be passed is CursorFactory instance
     }
 
-    // Creating Tables
+    // Creating Table
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_Scores + "("
@@ -45,7 +40,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Scores);
-
         // Create tables again
         onCreate(db);
     }
@@ -54,7 +48,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Drop older table if existed
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Scores);
-
         // Create tables again
         onCreate(db);
     }
@@ -67,7 +60,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, score.getName()); // player Name
         values.put(KEY_Level, score.getLevel()); // player level
         values.put(KEY_Score, score.getScore()); // player score
-
         // Inserting Row
         db.insert(TABLE_Scores, null, values);
         //2nd argument is String containing nullColumnHack
