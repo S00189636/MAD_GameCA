@@ -52,6 +52,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
+    public ArrayList<Score> GetTopFive(){
+        Score[] scores = new Score[5];
+        List<Score> scoreList = getAllScores();
+        // if i have less then 5 scores
+        // fill what i have and fill the rest with 0s
+        if(scoreList.size() < 5){
+            for (int i = 0; i < scoreList.size(); i++){
+                scores[i] = scoreList.get(i);
+            }
+            for (int i = scoreList.size(); i< scores.length;i++){
+                scores[i] = new Score("0","Player","0","0");
+            }
+        }
+        // if i have more then 5 in database fill first 5
+        // knowing that the list returned from database is sorted by the score
+        else {
+            for (int i = 0; i < scores.length; i++){
+                scores[i] = scoreList.get(i);
+            }
+        }
+        // convert array to list to give it to the adopter
+        ArrayList<Score> scoreListSorted = new ArrayList<>();
+        for (Score s : scores)
+            scoreListSorted.add(s);
+        return scoreListSorted;
+    }
+
+
+
     // code to add the new Score
     void addScore(Score score) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -93,10 +123,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return contact list
         return contactList;
     }
-    // Getting contacts Count
-    public Score getHighScore() {
-        Score score = getAllScores().size()>0 ? getAllScores().get(0) : null;
-        return score;
-    }
-
 }

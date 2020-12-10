@@ -12,7 +12,8 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
+    final int LEVEL_START_DIFFICULTY = 4;
+    final int LEVEL_START_DIFFICULTY_INCREASE = 2;
      enum GameState{
          Setup,
          Start,
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     CountUpTimer highlightTimer;
     // this will allow me to track the game state using the enum "GameState"
     CountUpTimer GameLoop;
-    int LevelDifficulty = 4;
+    int LevelDifficulty = LEVEL_START_DIFFICULTY;
     // used in animating the button along with the timer
     boolean timeUp = false;
     boolean highlightStarted = false;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     case NextActivity:
                         //start play screen and setup this screen for the next round if the player wins
                         tv_UserDisplay.setText("");
-                        LevelDifficulty +=2;
+                        LevelDifficulty +=LEVEL_START_DIFFICULTY_INCREASE;
                         CurrentLevel++;
                         DataLoaded = false;
                         //recreate();
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                             EndThisGame();
                             break;
                     case Restart:
-                        Log.i("Main activity:","Restarted -----------------------------------------------------");
+                        //Log.i("Main activity:","Restarted -----------------------------------------------------");
                         RestartGame();
                         break;
                     case Wait:
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void RestartGame() {
-        LevelDifficulty = 4;
+        LevelDifficulty = LEVEL_START_DIFFICULTY;
         currentButtonToLightIndex = 0;
         DataLoaded = false;
         MainActivity.gameState = GameState.Setup;

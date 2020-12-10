@@ -3,13 +3,21 @@ package edu.mohamedshiha.gameca;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class GameOverScreen extends AppCompatActivity {
 
     TextView tv_score,tv_Level,tv_GameOver;
+    EditText et_name;
+    Score score;
     // using database to check if the current score is a new high score
     // also to add the new score to the database
     DatabaseHandler db = new DatabaseHandler(this);
@@ -21,18 +29,25 @@ public class GameOverScreen extends AppCompatActivity {
         tv_score = findViewById(R.id.TV_ScoreItem);
         tv_Level = findViewById(R.id.tv_Level);
         tv_GameOver = findViewById(R.id.TV_GameOver);
+        et_name = findViewById(R.id.ET_Name);
 
         // create score object from the current score and level
-        Score score = new Score("Test","Moh",(MainActivity.CurrentLevel-1)+"",""+(MainActivity.CurrentScore));
+        score = new Score("Moh",(MainActivity.CurrentScore)+"",""+(MainActivity.CurrentLevel-1));
         // show score on screen
         tv_score.setText("Your Score is: "+score.getScore());
         tv_Level.setText("Your got to level: "+score.getLevel());
-        // check if the score is <=0 don't add it
-        if(Integer.parseInt(score.getScore()) > 0 )
-            db.addScore(score);
+
+
         // check if the current score is a new high score
-        if(db.getHighScore() != null && Integer.parseInt(score.getScore()) > Integer.parseInt(db.getHighScore().getScore()) )
-            tv_GameOver.setText("New High Score");
+        ArrayList<Score> scores = db.GetTopFive();
+        for(Score highScore : scores){
+            if(score.getScoreInt() > highScore.getScoreInt()){
+                tv_GameOver.setText("New High Score Enter Your Name");
+                ((Button)findViewById(R.id.btn_SaveScore)).setEnabled(true);
+                et_name.setEnabled(true);
+                break;
+            }
+        }
     }
 
 
@@ -54,4 +69,12 @@ public class GameOverScreen extends AppCompatActivity {
     }
 
 
+    public void SaveHighScore(View view) {
+        score.setName(et_name.getText().toString());
+        db.addScore(score);
+        Toast.makeText(this,"Saved",Toast.LENGTH_LONG).show();
+        ((Button) view).setEnabled(false);
+        et_name.setEnabled(false);
+        et_name.setBackgroundColor(Color.GRAY);
+    }
 }

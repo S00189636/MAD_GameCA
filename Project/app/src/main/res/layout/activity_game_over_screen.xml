@@ -16,24 +16,10 @@
         android:textColor="#813F3F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintHorizontal_bias="0.175"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.27" />
-
-    <TextView
-        android:id="@+id/tv_Level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your Level: 3"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#00E676"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.214"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.702" />
+        app:layout_constraintVertical_bias="0.396" />
 
     <TextView
         android:id="@+id/TV_ScoreItem"
@@ -44,10 +30,24 @@
         android:textColor="#00E676"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.137"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.491" />
+        app:layout_constraintVertical_bias="0.617" />
+
+    <TextView
+        android:id="@+id/tv_Level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Level: 3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#00E676"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.827" />
 
     <Button
         android:id="@+id/Btn_PlayAgain"
@@ -59,10 +59,10 @@
         android:textColor="#453939"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.887"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+        app:layout_constraintVertical_bias="0.426" />
 
     <Button
         android:id="@+id/Btn_ScoreBoard"
@@ -74,8 +74,42 @@
         android:textColor="#453939"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintHorizontal_bias="0.89"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.827" />
+
+    <Button
+        android:id="@+id/btn_SaveScore"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:drawable/ic_menu_save"
+        android:backgroundTint="#76FF03"
+        android:enabled="false"
+        android:onClick="SaveHighScore"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ET_Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.084" />
+
+    <EditText
+        android:id="@+id/ET_Name"
+        style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+        android:layout_width="267dp"
+        android:layout_height="65dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="Enter Name Here"
+        android:inputType="textPersonName"
+        android:textColor="#ECDEDE"
+        app:layout_constraintBottom_toTopOf="@+id/TV_GameOver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.29" />
 </androidx.constraintlayout.widget.ConstraintLayout>

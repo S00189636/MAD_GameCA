@@ -46,7 +46,7 @@ public class ScoreListViewAdapter extends ArrayAdapter<Score> {
 
             TV_Score.setText("Score: "+item.getScore());
             TV_Level.setText("Level: "+item.getLevel());
-            TV_Name.setText("Player "+item.ID);
+            TV_Name.setText(item.ID+"."+item.getName());
             return convertView;
         }
     }

@@ -9,6 +9,9 @@ public class Score implements Comparable  {
     public String getName() {
         return Name;
     }
+    public void setName(String name) {
+         Name = name;
+    }
 
     public String getScore() {
         return Score;
@@ -19,6 +22,9 @@ public class Score implements Comparable  {
     }
 
 
+    public int getScoreInt(){
+        return Integer.parseInt(getScore());
+    }
 
     public Score(String id,String name, String level, String score){
         Name = name;
@@ -27,9 +33,9 @@ public class Score implements Comparable  {
         ID = id;
     }
 
-    public Score(String score,String level)
+    public Score(String name,String score,String level)
     {
-        this("","PlayerName",level,score);
+        this(null,name,level,score);
     }
 
     @Override
