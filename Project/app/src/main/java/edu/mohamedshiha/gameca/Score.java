@@ -9,6 +9,7 @@ public class Score implements Comparable  {
     public String getName() {
         return Name;
     }
+
     public void setName(String name) {
          Name = name;
     }
@@ -20,7 +21,6 @@ public class Score implements Comparable  {
     public String getLevel() {
         return Level;
     }
-
 
     public int getScoreInt(){
         return Integer.parseInt(getScore());

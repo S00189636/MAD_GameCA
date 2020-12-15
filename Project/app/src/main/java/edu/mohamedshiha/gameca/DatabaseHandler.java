@@ -97,10 +97,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    // code to get all Scores as a list if ordered descending by the score
+    // code to get all Scores as a list
     public List<Score> getAllScores() {
         List<Score> contactList = new ArrayList<Score>();
-        // Select All Query
+        // Select All Query grouping by score to not get duplicates
         String selectQuery = "SELECT  * FROM " + TABLE_Scores + " Group by "+ KEY_Score + " ORDER BY " +KEY_Score;
         SQLiteDatabase db = this.getWritableDatabase();
         //execute query

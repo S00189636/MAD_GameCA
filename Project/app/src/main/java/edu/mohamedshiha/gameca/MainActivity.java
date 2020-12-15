@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
          Restart,
          Wait,
     }
-    // using buttons as visula feedback to the player
+    // using buttons as visual feedback to the player
     Button btnMonkey,btnMouse,btnCat,btnDog,btn_play;
     TextView tv_UserDisplay, tv_score, tv_level;
     int[] currentSequence;
@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void SetupGameToStart() {
 
-        //if(highlightTimer == null) return;
         if(highlightTimer.CurrentSeconds > 0) {
             tv_UserDisplay.setText("");
             highlightTimer.cancel();
@@ -219,16 +218,16 @@ public class MainActivity extends AppCompatActivity {
         if(currentSequence != null){
             //Toast.makeText(this,"Index: "+currentButtonToLightIndex,Toast.LENGTH_SHORT).show();
             switch (currentSequence[currentButtonToLightIndex]){
-                case 0:
+                case 0: // cat
                     StartHighlight(btnCat);
                     break;
-                case  1:
+                case  1: // dog
                     StartHighlight(btnDog);
                     break;
-                case 2:
+                case 2: // mouse
                     StartHighlight(btnMouse);
                     break;
-                case  3:
+                case  3: // monkey
                     StartHighlight(btnMonkey);
                     break;
             }
@@ -243,8 +242,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void StartHighlight(Button btn) {
+
+        // if the timer is up will set the button to be disabled and move on to the next button
         if(timeUp )
         {
             //Toast.makeText(this,"Time is up: "+currentButtonToLightIndex,Toast.LENGTH_SHORT).show();
@@ -253,10 +253,12 @@ public class MainActivity extends AppCompatActivity {
             currentButtonToLightIndex++;
             timeUp= false;
             highlightStarted = false;
+            // if the button is not highlighted and the timer is not up
+            // this means this is the first frame and i will set the button to be enabled
         }else if(!highlightStarted) {
             highlightTimer.start();
             highlightTimer.CurrentSeconds = 0;
-            animationTime =11f;
+            animationTime =11f;// in ms
             highlightStarted = true;
             btn.setEnabled(true);
         }
